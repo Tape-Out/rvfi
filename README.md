@@ -1,0 +1,18 @@
+# rvfi
+
+RISC-V Formal Interface harness for the cores in this library.
+
+![maturity](https://img.shields.io/badge/maturity-planned-lightgrey) ![license](https://img.shields.io/badge/license-Apache--2.0-blue)
+
+Part of the [Tape-Out](https://github.com/Tape-Out) IP library: Bluespec IP over the
+bus-neutral contracts in [`hwcore`](https://github.com/Tape-Out/hwcore), assembled by
+[`loom`](https://github.com/Tape-Out/loom). Maturity runs `planned` -> `simulated` ->
+`fpga-proven` -> `asic-ready` -> `silicon-proven`.
+
+## Status
+
+Planned. The entry in [`index`](https://github.com/Tape-Out/index) tracks what lands when.
+
+## License
+
+Apache License 2.0.
