@@ -1,0 +1,33 @@
+name: rvfi
+version: 0.1.0
+spec: '0.1'
+kind: library
+lang:
+- bsv
+- bh
+identity:
+  slug: rvfi-tapeout-bsv
+  display_name: RISC-V Formal Interface record and harness
+  summary: The RVFI commit record, its ports, and a riscv-formal runner for the
+    cores in this library.
+  category: infrastructure
+  maturity: simulated
+area:
+  probe:
+    module: mkRvfiProbe
+    src: tb/Probe.bsv
+    check: true
+  base:
+    fixed: 1.12
+  model: single-point
+  error:
+    bound: 0.05
+    sign: over
+    note: 'the library holds no state: the probe drives the 21 RVFI ports from an idle record and measures 1.12. The register that holds a record belongs to the core, and hart lists rvfi under test.noarea because the feature is only turned on in the formal verification top'
+  corner:
+    tool: ecc
+    pdk: ics55
+    freq_mhz: 100
+    measured: '2026-09-16'
+    toolchain: bsc 2026.01 · yosys 0.68+195 · ecc 0.1.0a11
+    gen_digest: sha256:97c7a84d08cf9144

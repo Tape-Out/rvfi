@@ -1,0 +1,49 @@
+package Rvfi where
+
+-- RISC-V Formal Interface 的一条记录（NRET 1、XLEN 32、ILEN 32）。字段名照 riscv-formal
+-- `docs/source/rvfi.rst` 的原名去掉 `rvfi_` 前缀；端口名在 RvfiPins 里补回去。
+-- 规范里「必须为零」的几条写成组装函数，核里只调这几个函数，不自己拼字段。
+
+struct Rvfi =
+    valid     :: Bool
+    order     :: Bit 64
+    insn      :: Bit 32
+    trap      :: Bool
+    halt      :: Bool
+    intr      :: Bool
+    mode      :: Bit 2
+    ixl       :: Bit 2
+    rs1_addr  :: Bit 5
+    rs2_addr  :: Bit 5
+    rs1_rdata :: Bit 32
+    rs2_rdata :: Bit 32
+    rd_addr   :: Bit 5
+    rd_wdata  :: Bit 32
+    pc_rdata  :: Bit 32
+    pc_wdata  :: Bit 32
+    mem_addr  :: Bit 32
+    mem_rmask :: Bit 4
+    mem_wmask :: Bit 4
+    mem_rdata :: Bit 32
+    mem_wdata :: Bit 32
+  deriving (Bits)
+
+-- 不出记录的拍：全零。rvfi_valid 为假时其余信号可以是任意值，给零省得综合器多留逻辑
+idle :: Rvfi
+idle = unpack 0
+
+-- *This output must be zero when ``rs1``/``rs2`` is zero.*（Integer register read/write）
+readRs :: Bit 5 -> Bit 32 -> Bit 5 -> Bit 32 -> Rvfi -> Rvfi
+readRs a1 v1 a2 v2 r =
+  r { rs1_addr = a1; rs1_rdata = if a1 == 0 then 0 else v1;
+      rs2_addr = a2; rs2_rdata = if a2 == 0 then 0 else v2 }
+
+-- *For an instruction that writes no ``rd`` register, this output must always be zero.* ·
+-- *This output must be zero when ``rd`` is zero.*：不写 rd 的指令传地址 0 进来
+writeRd :: Bit 5 -> Bit 32 -> Rvfi -> Rvfi
+writeRd a v r = r { rd_addr = a; rd_wdata = if a == 0 then 0 else v }
+
+-- RISCV_FORMAL_ALIGNED_MEM：地址按 4 字节对齐，掩码就是选通
+access :: Bit 32 -> Bit 4 -> Bit 32 -> Bit 4 -> Bit 32 -> Rvfi -> Rvfi
+access ad rm rd wm wd r =
+  r { mem_addr = ad; mem_rmask = rm; mem_rdata = rd; mem_wmask = wm; mem_wdata = wd }
