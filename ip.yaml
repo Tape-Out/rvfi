@@ -23,7 +23,7 @@ area:
   error:
     bound: 0.05
     sign: over
-    note: 'the library holds no state: the probe drives the 21 RVFI ports from an idle record and measures 1.12. The register that holds a record belongs to the core, and hart lists rvfi under test.noarea because the feature is only turned on in the formal verification top'
+    note: 'the library holds no state: the probe drives the 21 RVFI ports from an idle record and measures 1.12. The register that holds a record belongs to the core, and hart prices rvfi like any other feature, although the configurations that go into a SoC always turn it off'
   corner:
     tool: ecc
     pdk: ics55
