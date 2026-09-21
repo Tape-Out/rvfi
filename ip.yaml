@@ -15,7 +15,7 @@ identity:
 area:
   probe:
     module: mkRvfiProbe
-    src: tb/Probe.bsv
+    src: htest/Probe.bsv
     check: true
   base:
     fixed: 1.12
