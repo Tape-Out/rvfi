@@ -15,8 +15,8 @@ A core that supports formal verification drives one RVFI commit record per retir
 
 | File | Language | Content |
 | :-- | :-- | :-- |
-| `bsv/Rvfi.bs` | Bluespec Haskell | The `Rvfi` record for NRET 1, XLEN 32, ILEN 32, with field names taken from `rvfi.rst`, and three constructors (`readRs`, `writeRd`, `access`) that enforce the zero rules of the interface, so a core never assembles fields by hand |
-| `bsv/RvfiPins.bsv` | Bluespec SystemVerilog | `RvfiPins`, one `always_ready` method per signal with the exact `rvfi_*` port name, and `rvfiPins` to drive it from a record |
+| `hwsrc/Rvfi.bs` | Bluespec Haskell | The `Rvfi` record for NRET 1, XLEN 32, ILEN 32, with field names taken from `rvfi.rst`, and three constructors (`readRs`, `writeRd`, `access`) that enforce the zero rules of the interface, so a core never assembles fields by hand |
+| `hwsrc/RvfiPins.bsv` | Bluespec SystemVerilog | `RvfiPins`, one `always_ready` method per signal with the exact `rvfi_*` port name, and `rvfiPins` to drive it from a record |
 | `formal/run.sh` | shell | Runs riscv-formal on a core directory holding `wrapper.sv`, `checks.cfg` and the Verilog under test, with riscv-formal pinned at `c992aa61`, and lists the result of every check |
 
 The ports are written one method each because the pinned bsc 2026.01 has no `SplitPorts`, so a struct cannot be split into named ports. A core puts the interface under `(* prefix = "" *)` to keep the names unprefixed.
